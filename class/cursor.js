@@ -1,44 +1,50 @@
-const Screen = require("./screen");
+const Screen = require('./screen');
 
 class Cursor {
+	constructor(numRows, numCols) {
+		this.numRows = numRows;
+		this.numCols = numCols;
 
-  constructor(numRows, numCols) {
-    this.numRows = numRows;
-    this.numCols = numCols;
+		this.row = 0;
+		this.col = 0;
 
-    this.row = 0;
-    this.col = 0;
+		this.gridColor = 'black';
+		this.cursorColor = 'yellow';
+	}
 
-    this.gridColor = 'black';
-    this.cursorColor = 'yellow';
+	resetBackgroundColor = () =>
+		Screen.setBackgroundColor(this.row, this.col, this.gridColor);
 
-  }
+	setBackgroundColor = () =>
+		Screen.setBackgroundColor(this.row, this.col, this.cursorColor);
 
-  resetBackgroundColor() {
-    Screen.setBackgroundColor(this.row, this.col, this.gridColor);
-  }
+	up() {
+		this.resetBackgroundColor();
+		if (this.row > 0) this.row -= 1;
+		this.setBackgroundColor();
+		Screen.render();
+	}
 
-  setBackgroundColor() {
-    Screen.setBackgroundColor(this.row, this.col, this.cursorColor);
-  }
+	down() {
+		this.resetBackgroundColor();
+		if (this.row < 2) this.row += 1;
+		this.setBackgroundColor();
+		Screen.render();
+	}
 
-  up() {
-    // Move cursor up
-  }
+	left() {
+		this.resetBackgroundColor();
+		if (this.col > 0) this.col -= 1;
+		this.setBackgroundColor();
+		Screen.render();
+	}
 
-  down() {
-    // Move cursor down
-  }
-
-  left() {
-    // Move cursor left
-  }
-
-  right() {
-    // Move cursor right
-  }
-
+	right() {
+		this.resetBackgroundColor();
+		if (this.col < 2) this.col += 1;
+		this.setBackgroundColor();
+		Screen.render();
+	}
 }
-
 
 module.exports = Cursor;
