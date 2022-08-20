@@ -11,6 +11,8 @@ class TTT {
 			[' ', ' ', ' '],
 		];
 
+		this.move = 'O';
+
 		this.cursor = new Cursor(3, 3);
 
 		// Initialize a 3x3 tic-tac-toe grid
@@ -26,8 +28,7 @@ class TTT {
 			this.cursor.right.bind(this.cursor)
 		);
 		Screen.addCommand('down', 'down', this.cursor.down.bind(this.cursor));
-		Screen.addCommand('x', 'place an X', this.placeMove.bind(this, 'X'));
-		Screen.addCommand('o', 'place an O', this.placeMove.bind(this, 'O'));
+		Screen.addCommand('space', 'place a move', this.placeMove.bind(this));
 
 		// set initial highlight at 0, 0 location
 		this.cursor.setBackgroundColor();
@@ -37,13 +38,20 @@ class TTT {
 		Screen.printCommands();
 	}
 
-	placeMove(type) {
+	placeMove() {
 		// put down move at cursor
 		let row = this.cursor.row;
 		let col = this.cursor.col;
 
-		Screen.setGrid(row, col, type);
+		Screen.setGrid(row, col, this.move);
 		Screen.render();
+
+		// change move for the next time
+		if (this.move === 'O') {
+			this.move = 'X';
+		} else {
+			this.move = 'O';
+		}
 
 		// check the status
 		let winner = TTT.checkWin(Screen.grid);
